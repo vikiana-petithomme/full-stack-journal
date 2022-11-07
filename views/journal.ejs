@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>MY JOURNAL</title>
+        <meta name="create a to-do list" content="simple to-do list">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <link href="https://fonts.googleapis.com/css2?family=Alegreya+SC:ital,wght@0,400;1,900&display=swap" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <header>
+            <h1>MY JOURNAL</h1>
+            <p>Labeling emotions and acknowledging traumatic events — both natural outcomes of journaling — have a known positive effect on people, Dr. Pennebaker said, and are often incorporated into traditional talk therapy. </p>
+            <p>At the same time, writing is fundamentally an organizational system. Keeping a journal, according to Dr. Pennebaker, helps to organize an event in our mind, and make sense of trauma. When we do that, our working memory improves, since our brains are freed from the enormously taxing job of processing that experience, and we sleep better.</p>
+            <p>This in turn improves our immune system and our moods; we go to work feeling refreshed, perform better and socialize more. “There’s no single magic moment,” Dr. Pennebaker said. “But we know it works.”</p>
+        </header>
+            
+            <a class="button" id="addEntry" >New Entry</a>
+            <section class="customize">
+                <!-- CHOOSE BACKGROUND COLOR-->
+
+                <!-- CHOOSE TEXT COLOR-->
+
+                <!-- CHOOSE BUTTON COLOR-->
+            </section>
+            <section class="journalEntry hide">
+                <section id="subject">
+                    <span>Journal Prompt:</span>
+                    <h2><%=reflectionQuestions[Math.floor(Math.random() * reflectionQuestions.length)].question%></h2>
+                    <a class=button>Get a Different Prompt</a>
+                    <a class=button>Free Write</a>
+                </section>
+                <form action="journal" method="POST">
+                    <input type="date" name="date" id="date" required>
+                    <textarea name="entry"></textarea>
+                    <button type="submit" class="button">FINISHED</button>
+                </form>
+            </section>
+        </div>
+        <div class="previousEntries">
+            <h4>PAST ENTRIES</h4>
+            <% for(let i=0; i<entries.length; i++){ %>
+                <h3><%= entries[i].date%><span class="material-symbols-outlined">
+                    delete
+                    </span></h3>
+                <p><%= entries[i].entry%></p>
+                <hr>
+            <%}%> 
+        
+        <script src="main.js" async defer></script>
+    </body>
+</html>
