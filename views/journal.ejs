@@ -31,9 +31,9 @@
             <section class="journalEntry hide">
                 <section id="subject">
                     <span>Journal Prompt:</span>
-                    <h2><%=reflectionQuestions[Math.floor(Math.random() * reflectionQuestions.length)].question%></h2>
-                    <a class=button>Get a Different Prompt</a>
-                    <a class=button>Free Write</a>
+                    <h2 id="prompt" name="prompt"><%=reflectionQuestions[Math.floor(Math.random() * reflectionQuestions.length)].question%></h2>
+                    <a class="button" id="newPrompt">Get a Different Prompt</a>
+                    <a class="button" id="freeWrite">Free Write</a>
                 </section>
                 <form action="journal" method="POST">
                     <input type="date" name="date" id="date" required>
@@ -45,11 +45,15 @@
         <div class="previousEntries">
             <h4>PAST ENTRIES</h4>
             <% for(let i=0; i<entries.length; i++){ %>
-                <h3><%= entries[i].date%><span class="material-symbols-outlined">
-                    delete
-                    </span></h3>
-                <p><%= entries[i].entry%></p>
-                <hr>
+                <section>
+                    <h3 id="<%= entries[i]._id%>">
+                        <%= entries[i].date%>
+                        <span class="material-symbols-outlined" id="trash">
+                        delete</span>
+                    </h3>
+                    <p><%= entries[i].prompt%></p>
+                    <p><%= entries[i].entry%></p>
+                </section>
             <%}%> 
         
         <script src="main.js" async defer></script>

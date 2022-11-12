@@ -1,3 +1,5 @@
+const ObjectID = require('mongodb').ObjectID
+
 module.exports = function(app, passport, db) {
 
 // normal routes ===============================================================
@@ -31,7 +33,7 @@ module.exports = function(app, passport, db) {
 // message board routes ===============================================================
 
     app.post('/journal', (req, res) => {
-      db.collection('entries').save({entry: req.body.entry, date: req.body.date}, (err, result) => {
+      db.collection('entries').updateOne({entry: req.body.entry, prompt: req.body.prompt, date: req.body.date}, (err, result) => {
         if (err) return console.log(err)
         console.log('saved to database')
         res.redirect('/journal')
@@ -47,10 +49,11 @@ module.exports = function(app, passport, db) {
 
     app.put('/entries', (req, res) => {
       db.collection('entries')
-      .findOneAndUpdate({entry: req.body.entry, date: req.body.date}, {
+      .findOneAndUpdate({entry: req.body.entry, prompt: req.body.prompt,date: req.body.date}, {
         $set: {
           entry: req.body.entry, 
-          date: req.body.date
+          date: req.body.date,
+          prompt: req.body.prompt,
         }
       }, {
         sort: {_id: -1},
@@ -61,24 +64,8 @@ module.exports = function(app, passport, db) {
       })
     })
     
-
-    /*app.put('/thumbDown', (req, res) => {
-      db.collection('messages')
-      .findOneAndUpdate({name: req.body.name, msg: req.body.msg}, {
-        $set: {
-          thumbDown:req.body.thumbDown + 1
-        }
-      }, {
-        sort: {_id: -1},
-        upsert: true
-      }, (err, result) => {
-        if (err) return res.send(err)
-        res.send(result)
-      })
-    })*/
-
     app.delete('/trash', (req, res) => {
-      db.collection('entries').findOneAndDelete({entry: req.body.entry, date: req.body.date}, (err, result) => {
+      db.collection('entries').findOneAndDelete({_id: ObjectID(req.body._id)}, (err, result) => {
         if (err) return res.send(500, err)
         res.send('Entry deleted!')
       })
@@ -132,12 +119,14 @@ module.exports = function(app, passport, db) {
         });
     });
 
-};
+
 
 // route middleware to ensure user is logged in
 function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated())
-        return next();
-
+    if (req.isAuthenticated()){
+      return next();
+    }
     res.redirect('/');
+} 
+
 }
